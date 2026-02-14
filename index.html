@@ -6,7 +6,7 @@
     <title>For Swarna | My Forever</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://banglawebfonts.pages.dev/css/mukti.css" rel="stylesheet">
-    
+
     <style>
         :root {
             --rose-pink: #ff4d6d;
@@ -38,6 +38,13 @@
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
+        }
+
+        /* Pulse animation for the gift heart */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         .heart-particle {
@@ -120,7 +127,7 @@
             justify-content: space-around;
             padding: 20px;
             background: rgba(0,0,0,0.2);
-            flex-shrink: 0; /* Prevents nav from shrinking */
+            flex-shrink: 0;
         }
 
         .nav-item {
@@ -139,17 +146,14 @@
             box-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
         }
 
-        /* --- UPDATED CONTENT AREA --- */
         .content-area {
             flex: 1;
             padding: 20px;
             overflow-y: auto;
-            /* Scrollbar styling */
             scrollbar-width: thin;
             scrollbar-color: var(--rose-pink) transparent;
         }
 
-        /* Webkit scrollbar for Chrome/Safari */
         .content-area::-webkit-scrollbar {
             width: 6px;
         }
@@ -158,16 +162,13 @@
             border-radius: 10px;
         }
 
-        /* --- UPDATED TAB PANEL SYSTEM --- */
         .tab-panel { 
             display: none; 
             width: 100%; 
-            /* Fix: Ensure content takes at least full height to allow vertical centering */
             min-height: 100%; 
             animation: slideIn 0.6s ease; 
         }
 
-        /* Active state makes it a flex container */
         .tab-panel.active { 
             display: flex; 
             flex-direction: column;
@@ -175,7 +176,7 @@
             justify-content: center;
         }
 
-        /* SPECIAL FIX FOR GALLERY: Align to top so scrolling works */
+        /* Special class for gallery – aligns content to top so scrolling works */
         .tab-panel.gallery-active {
             justify-content: flex-start !important;
             padding-top: 20px;
@@ -200,7 +201,6 @@
             white-space: pre-line;
         }
 
-        /* Bangla Font styling */
         #reasonText {
             font-family: 'Mukti', sans-serif;
             text-align: center;
@@ -208,13 +208,12 @@
             margin: 0 auto;
         }
 
-        /* Memory Card Grid Styling */
         .gallery-grid {
             display: flex; 
             flex-wrap: wrap; 
             justify-content: center; 
             gap: 20px;
-            padding-bottom: 30px; /* Space at bottom for scrolling */
+            padding-bottom: 30px;
         }
 
         .memory-card {
@@ -223,7 +222,7 @@
             padding-bottom: 35px;
             transform: rotate(calc(var(--r) * 1deg));
             transition: 0.4s;
-            width: 220px; /* Slightly smaller to fit mobile better */
+            width: 220px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
@@ -278,13 +277,14 @@
         </div>
 
         <div class="content-area">
-            
+
             <div class="tab-panel active">
                 <h2 class="big-text">Dear Swarna,</h2>
                 <div id="typing-text"></div>
             </div>
 
-            <div class="tab-panel gallery-active">
+            <!-- Removed initial gallery-active class for cleanliness -->
+            <div class="tab-panel">
                 <div class="gallery-grid">
                     <div class="memory-card" style="--r: -5">
                         <img src="https://pbs.twimg.com/media/HBITsIBakAEWNOv?format=jpg&name=large" alt="Love">
@@ -305,26 +305,27 @@
                         <img src="https://pbs.twimg.com/media/HBIg7GiboAAq1VY?format=jpg&name=large" alt="Together">
                     </div>
                 </div>
-                <p style="text-align:center; margin-top: 20px; padding-bottom: 20px;">Every moment with you is a masterpiece.</p>
+                <p style="text-align:center; margin-top: 20px; padding-bottom: 20px;">....</p>
             </div>
 
             <div class="tab-panel">
                 <div id="reasonText"></div>
                 <div id="triggerBtnArea" style="text-align: center; margin-top: 30px;">
-                    <button class="btn-special" id="startReasonBtn" onclick="startReasonTyping()">Read My Heart</button>
+                    <button class="btn-special" id="startReasonBtn" onclick="startReasonTyping()">Click</button>
                 </div>
             </div>
 
             <div class="tab-panel" style="text-align: center;">
                 <h2 class="big-text">Happy Valentine's Day!</h2>
                 <p style="font-size: 1.2rem; margin-bottom: 30px;">I made this because you deserve something as unique as you are.</p>
+                <!-- Now pulse animation works -->
                 <div style="font-size: 5rem; animation: pulse 1.5s infinite;">💝</div>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. Floating Hearts
+        // Floating hearts
         const heartContainer = document.getElementById('heart-bg');
         function createHeart() {
             const heart = document.createElement('div');
@@ -338,7 +339,7 @@
         }
         setInterval(createHeart, 300);
 
-        // 2. Unlock Logic
+        // Unlock logic
         function unlock() {
             const pass = document.getElementById('passkey').value.toLowerCase();
             if(pass === 'swarna') {
@@ -346,33 +347,29 @@
                 document.getElementById('main-content').style.display = 'flex';
                 setTimeout(startLetterTyping, 1000);
             } else {
-                const err = document.getElementById('error');
-                err.style.display = 'block';
+                document.getElementById('error').style.display = 'block';
             }
         }
 
-        // 3. Tab System (Updated)
+        // Tab system
         const panels = document.querySelectorAll('.tab-panel');
         const navItems = document.querySelectorAll('.nav-item');
-        
+
         function showTab(index) {
             panels.forEach(p => {
                 p.classList.remove('active');
-                p.classList.remove('gallery-active'); // Remove gallery specific class
+                p.classList.remove('gallery-active');
             });
             navItems.forEach(n => n.classList.remove('active'));
-            
+
             panels[index].classList.add('active');
-            
-            // Add specific class for Gallery (index 1) to fix scrolling
             if(index === 1) {
                 panels[index].classList.add('gallery-active');
             }
-
             navItems[index].classList.add('active');
         }
 
-        // 4. Typing Effect for Letter
+        // Typing effect for Letter
         const letter = "You are the melody to my favorite song and the peace in my chaotic world. \n\nBuilding this for you is just a small way to say that you mean everything to me. Thank you for being you, Swarna. \n\nForever yours.";
         let i = 0;
         function startLetterTyping() {
@@ -383,18 +380,12 @@
             }
         }
 
-        // 5. Why You? Section
+        // Why You? section
         const heartText = `I don’t need any reason to love you — 
 I just love you...
 
 I never want to hold you for some reason...
 কারণগুলো তো খুব দ্রুত ফুরিয়ে যায়।
-
-আমি চাই তুমি হয়ে যাও চিরন্তন বাতাসের মতো — 
-যাকে ধরা যায় না, ছোঁয়া যায় না, 
-শুধু অনুভব করা যায়।
-
-যা শুধু অনুভূতির মাধ্যমে নিজের অস্তিত্ব প্রমাণ করে।
 
 Love you, always...`;
 
